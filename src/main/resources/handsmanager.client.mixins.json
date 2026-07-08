@@ -3,7 +3,7 @@
   "required": true,
   "minVersion": "0.8",
   "client": [
-    "MinecraftMixin"
+    "ItemInHandRendererMixin"
   ],
   "injectors": {
     "defaultRequire": 1
