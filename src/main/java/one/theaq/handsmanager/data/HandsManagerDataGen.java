@@ -1,4 +1,4 @@
-package one.theaq.template.data;
+package one.theaq.handsmanager.data;
 
 //? if fabric {
 
@@ -7,7 +7,7 @@ import net.fabricmc.fabric.api.datagen.v1.DataGeneratorEntrypoint;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
 
 @Entrypoint("fabric-datagen")
-public final class TemplateDataGen implements DataGeneratorEntrypoint {
+public final class HandsManagerDataGen implements DataGeneratorEntrypoint {
 	
 	@Override
 	public void onInitializeDataGenerator(FabricDataGenerator fabricDataGenerator) {
@@ -16,13 +16,13 @@ public final class TemplateDataGen implements DataGeneratorEntrypoint {
 }
 //?} else {
 
-/*import one.theaq.template.Template;
+/*import one.theaq.handsmanager.HandsManagerMain;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.data.event.GatherDataEvent;
 
-@EventBusSubscriber(modid = Template.MOD_ID)
-public final class TemplateDataGen {
+@EventBusSubscriber(modid = HandsManagerMain.MOD_ID)
+public final class HandsManagerDataGen {
 
 	//? if >= 1.21.4 {
 	@SubscribeEvent

@@ -62,4 +62,4 @@ gradle.beforeProject {
     }
 }
 
-rootProject.name = "Template"
+rootProject.name = "MC Hands Manager"

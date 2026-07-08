@@ -1,10 +1,10 @@
 import dev.kikugie.fletching_table.annotation.MixinEnvironment
-import template.utils.*
+import handsmanager.utils.*
 
 plugins {
   kotlin("jvm")
   id("net.neoforged.moddev")
-  id("template.common")
+  id("handsmanager.common")
   id("com.google.devtools.ksp") version "2.3.9"
   id("dev.kikugie.fletching-table.neoforge") version "0.1.0-alpha.22"
   id("com.github.gmazzo.buildconfig") version "5.7.1"
@@ -118,8 +118,8 @@ neoForge {
 
 fletchingTable {
   mixins.register("main") {
-    mixin("default", "template.mixins.json")
-    mixin("client", "template.client.mixins.json") {
+    mixin("default", "handsmanager.mixins.json")
+    mixin("client", "handsmanager.client.mixins.json") {
       environment = MixinEnvironment.Env.CLIENT
     }
   }
@@ -147,14 +147,14 @@ tasks {
   }
 
   processResources {
-    exclude("fabric.mod.json", "template.fabric.mixins.json")
+    exclude("fabric.mod.json", "handsmanager.fabric.mixins.json")
     exclude { it.name.endsWith(".accesswidener") }
   }
 }
 
 buildConfig {
-  className("TemplateConstants")
-  packageName("one.theaq.template")
+  className("Constants")
+  packageName("one.theaq.handsmanager")
   useJavaOutput()
 
   buildConfigField("String", "MINECRAFT_VERSION", "\"$minecraft\"")

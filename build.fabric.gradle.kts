@@ -3,11 +3,11 @@
 import dev.kikugie.fletching_table.annotation.MixinEnvironment
 import org.gradle.kotlin.dsl.mappings
 import org.gradle.kotlin.dsl.remapJar
-import template.utils.*
+import handsmanager.utils.*
 
 plugins {
   kotlin("jvm")
-  id("template.common")
+  id("handsmanager.common")
   id("fabric-loom")
   id("com.google.devtools.ksp") version "2.3.9"
   id("dev.kikugie.fletching-table.fabric") version "0.1.0-alpha.22"
@@ -57,7 +57,7 @@ loom {
     configureDataGeneration {
       createRunConfiguration = true
       client = true
-      modId = "template"
+      modId = "${mod("id")}"
     }
 
     configureTests {
@@ -103,11 +103,11 @@ fletchingTable {
   }
 
   mixins.register("main") {
-    mixin("default", "template.mixins.json")
-    mixin("client", "template.client.mixins.json") {
+    mixin("default", "handsmanager.mixins.json")
+    mixin("client", "handsmanager.client.mixins.json") {
       environment = MixinEnvironment.Env.CLIENT
     }
-    mixin("fabric", "template.fabric.mixins.json")
+    mixin("fabric", "handsmanager.fabric.mixins.json")
   }
 }
 
@@ -134,8 +134,8 @@ tasks {
 }
 
 buildConfig {
-  className("TemplateConstants")
-  packageName("one.theaq.template")
+  className("Constants")
+  packageName("one.theaq.handsmanager")
   useJavaOutput()
 
   buildConfigField("String", "MINECRAFT_VERSION", "\"$minecraft\"")

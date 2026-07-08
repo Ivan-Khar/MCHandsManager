@@ -1,7 +1,7 @@
 //? if fabric {
-package one.theaq.template.platform.fabric;
+package one.theaq.handsmanager.platform.fabric;
 
-import one.theaq.template.Template;
+import one.theaq.handsmanager.HandsManagerMain;
 import dev.kikugie.fletching_table.annotation.fabric.Entrypoint;
 import net.fabricmc.api.ModInitializer;
 
@@ -9,7 +9,7 @@ import net.fabricmc.api.ModInitializer;
 public final class FabricEntrypoint implements ModInitializer {
     @Override
     public void onInitialize() {
-        Template.initialize();
+        HandsManagerMain.initialize();
     }
 }
 //?}

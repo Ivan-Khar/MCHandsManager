@@ -1,4 +1,4 @@
-package one.theaq.template.platform;
+package one.theaq.handsmanager.platform;
 
 //? if fabric {
 import net.fabricmc.loader.api.FabricLoader;

@@ -1,16 +1,16 @@
-package one.theaq.template;
+package one.theaq.handsmanager;
 
 //~identifier
 import net.minecraft.resources.Identifier;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class Template {
-	public static final String MOD_ID = "template";
+public class HandsManagerMain {
+	public static final String MOD_ID = "mchandsmanager";
 	public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
 
 	public static void initialize() {
-		LOGGER.info("Template Initialized");
+		LOGGER.info(MOD_ID + " initialized");
 	}
 
 	public static Identifier location(String path) {

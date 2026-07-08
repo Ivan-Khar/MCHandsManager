@@ -1,6 +1,6 @@
-package one.theaq.template;
+package one.theaq.handsmanager;
 
-import one.theaq.template.platform.Platform;
+import one.theaq.handsmanager.platform.Platform;
 import org.objectweb.asm.tree.ClassNode;
 import org.spongepowered.asm.mixin.extensibility.IMixinConfigPlugin;
 import org.spongepowered.asm.mixin.extensibility.IMixinInfo;
@@ -8,7 +8,7 @@ import org.spongepowered.asm.mixin.extensibility.IMixinInfo;
 import java.util.List;
 import java.util.Set;
 
-public class TemplateMixinConfigPlugin implements IMixinConfigPlugin {
+public class MixinConfigPlugin implements IMixinConfigPlugin {
 	@Override
 	public void onLoad(String mixinPackage) {
 	}
