@@ -5,7 +5,7 @@
   "version": "${mod_version}",
   "description": "${mod_description}",
   "authors": [
-    "leIvan"
+    "${mod_author}"
   ],
   "contact": {
     "homepage": "https://github.com/Ivan-Khar/${mod_name}",

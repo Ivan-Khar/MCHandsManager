@@ -2,7 +2,7 @@ package one.theaq.handsmanager.data;
 
 //? if fabric {
 
-import dev.kikugie.fletching_table.annotation.fabric.Entrypoint;
+/*import dev.kikugie.fletching_table.annotation.fabric.Entrypoint;
 import net.fabricmc.fabric.api.datagen.v1.DataGeneratorEntrypoint;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
 
@@ -14,11 +14,12 @@ public final class HandsManagerDataGen implements DataGeneratorEntrypoint {
 	
 	}
 }
-//?} else {
+*///?} else {
 
-/*import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.data.event.GatherDataEvent;
+import one.theaq.handsmanager.HandsManagerMain;
 
 @EventBusSubscriber(modid = HandsManagerMain.MOD_ID)
 public final class HandsManagerDataGen {
@@ -35,11 +36,11 @@ public final class HandsManagerDataGen {
 	}
 	//?} else {
 	
-	/^@SubscribeEvent
+	/*@SubscribeEvent
 	public static void gatherData(GatherDataEvent event) {
 	
 	}
-	^///?}
+	*///?}
 }
 
-*///?}
+//?}

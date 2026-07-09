@@ -29,6 +29,7 @@ tasks {
         val props = mapOf(
             "mod_id" to mod("id"),
             "mod_name" to mod("name"),
+            "mod_author" to mod("author"),
             "mod_version" to mod("version"),
             "mod_description" to mod("description"),
             "mod_license" to mod("license"),
