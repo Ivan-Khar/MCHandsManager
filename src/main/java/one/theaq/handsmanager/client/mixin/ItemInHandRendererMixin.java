@@ -34,7 +34,7 @@ public abstract class ItemInHandRendererMixin {
 	//  - Optionally make two handed map onehanded on main hand
 	//  - Disable offhand rendering if two handed item is in main hand
 	//  - Actual proper config where you can move hands with gizmo instead of sliders like I did before
-	
+	//  - Offhand just pops into the existence if you stop holding two handed item in your main hand
 	@Unique
 	HandsManagerConfig CONFIG = HandsManagerMain.CONFIG;
 	
