@@ -1,8 +1,7 @@
 package one.theaq.handsmanager.platform
 
-import java.nio.file.Path
 //? if fabric {
-/*import net.fabricmc.loader.api.FabricLoader
+import net.fabricmc.loader.api.FabricLoader
 
 
 object Platform {
@@ -16,49 +15,49 @@ object Platform {
     val debugDirectory: Path
         get() = FabricLoader.getInstance().getConfigDir().getParent().resolve(".mchandsmanager_debug")
 }
-*///?} else if neoforge {
+//?} else if neoforge {
 
-import net.neoforged.fml.ModList
-import net.neoforged.fml.loading.LoadingModList
+/*import net.neoforged.fml.ModList
 import net.neoforged.fml.loading.FMLLoader
+import java.nio.file.Path
 
 object Platform {
-	fun isModLoaded(modId: String): Boolean {
-		val modList = ModList.get()
-		if (modList != null) {
-			return modList.isLoaded(modId)
-		}
-		//? if >=1.21.10 {
-		val loadingModList = FMLLoader.getCurrent().getLoadingModList()
-		//?} else {
-		/*val loadingModList = LoadingModList.get()
-		*///?}
-		if (loadingModList != null) {
-			return loadingModList.getModFileById(modId) != null
-		}
-		return false
-	}
+    fun isModLoaded(modId: String): Boolean {
+        val modList = ModList.get()
+        if (modList != null) {
+            return modList.isLoaded(modId)
+        }
+        //? if >=1.21.10 {
+        val loadingModList = FMLLoader.getCurrent().getLoadingModList()
+        //?} else {
+        /*val loadingModList = LoadingModList.get()
+        *///?}
+        if (loadingModList != null) {
+            return loadingModList.getModFileById(modId) != null
+        }
+        return false
+    }
 
-	//? if >=1.21.10 {
-	fun isDev(): Boolean {
-		return !FMLLoader.getCurrent().isProduction
-	}
+    //? if >=1.21.10 {
+    fun isDev(): Boolean {
+        return !FMLLoader.getCurrent().isProduction
+    }
 
-	fun getDebugDirectory(): Path {
-		return FMLLoader.getCurrent().gameDir.resolve(".mchandsmanager_debug")
-	}
-	//?} else {
-	/*fun isDev(): Boolean {
-		return !FMLLoader.isProduction()
-	}
+    fun getDebugDirectory(): Path {
+        return FMLLoader.getCurrent().gameDir.resolve(".mchandsmanager_debug")
+    }
+    //?} else {
+    /*fun isDev(): Boolean {
+        return !FMLLoader.isProduction()
+    }
 
-	fun getDebugDirectory(): Path {
-		return FMLLoader.getGamePath().resolve(".mchandsmanager_debug")
-	}
-	*///?}
+    fun getDebugDirectory(): Path {
+        return FMLLoader.getGamePath().resolve(".mchandsmanager_debug")
+    }
+    *///?}
 }
 
-//?}
+*///?}
 
 
 

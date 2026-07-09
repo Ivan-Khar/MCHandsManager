@@ -15,7 +15,7 @@ import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.item.ItemModelResolver;
 //? } else {
 /*import net.minecraft.client.renderer.MultiBufferSource;
-*///? }
+ *///? }
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
@@ -48,6 +48,7 @@ public abstract class ItemInHandRendererMixin {
 	
 	@Shadow
 	protected abstract boolean shouldInstantlyReplaceVisibleItem(ItemStack currentlyVisibleItem, ItemStack expectedItem);
+	
 	//? } else {
 	/*@Shadow
 	protected abstract void renderPlayerArm(PoseStack poseStack, MultiBufferSource multiBufferSource, int i, float f, float g, HumanoidArm humanoidArm);
@@ -105,8 +106,8 @@ public abstract class ItemInHandRendererMixin {
 	@Inject(method = "tick", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/ItemInHandRenderer;shouldInstantlyReplaceVisibleItem(Lnet/minecraft/world/item/ItemStack;Lnet/minecraft/world/item/ItemStack;)Z"))
 	private void checkIfHeldTwoHandedItem(CallbackInfo ci, @Local(name = "nextOffHand") ItemStack nMainHand, @Local(name = "nextMainHand") ItemStack nOffHand) {
 		if ((mainHandItem.has(DataComponents.MAP_ID) ||
-			nMainHand.has(DataComponents.MAP_ID) ||
-			(mainHandItem.is(CommonTags.INSTANCE.getCROSSBOWS()) && CrossbowItem.isCharged(mainHandItem))
+				     nMainHand.has(DataComponents.MAP_ID) ||
+				     (mainHandItem.is(CommonTags.INSTANCE.getCROSSBOWS()) && CrossbowItem.isCharged(mainHandItem))
 		) && offHandItem.isEmpty()) wasTwoHandedItem = true;
 	}
 	//~ }
@@ -119,7 +120,7 @@ public abstract class ItemInHandRendererMixin {
 			var mainHandInverseArmHeight = itemModelResolver.swapAnimationScale(mainHandItem) * (1.0F - Mth.lerp(frameInterp, oMainHandHeight, mainHandHeight));
 			//? } else {
 			/*var mainHandInverseArmHeight = 1.0F - Mth.lerp(frameInterp, this.oMainHandHeight, this.mainHandHeight);
-			*///? }
+			 *///? }
 			
 			if (mainHandInverseArmHeight == 0) wasTwoHandedItem = false;
 			return mainHandInverseArmHeight;
@@ -131,13 +132,15 @@ public abstract class ItemInHandRendererMixin {
 	//~ if >= 26.0 'MultiBufferSource multiBufferSource' -> 'SubmitNodeCollector submitNodeCollector' {
 	@Inject(method = "submitArmWithItem", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/ItemInHandRenderer;renderTwoHandedMap(Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/SubmitNodeCollector;IFFF)V", ordinal = 0))
 	private void removeXYOffsetForTwoHandedMap(AbstractClientPlayer player, float frameInterp, float xRot, InteractionHand hand, float attack, ItemStack itemStack, float inverseArmHeight, PoseStack poseStack, SubmitNodeCollector submitNodeCollector, int lightCoords, CallbackInfo ci) {
-		if (hand.equals(InteractionHand.OFF_HAND)) poseStack.translate(-handsManager$CONFIG.getLeftXOffset(), -handsManager$CONFIG.getLeftYOffset(), 0);
+		if (hand.equals(InteractionHand.OFF_HAND))
+			poseStack.translate(-handsManager$CONFIG.getLeftXOffset(), -handsManager$CONFIG.getLeftYOffset(), 0);
 	}
 	
 	//~ if >= 26.0 'ZLcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource' -> 'Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/SubmitNodeCollector'
 	@Inject(method = "submitArmWithItem", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/ItemInHandRenderer;renderItem(Lnet/minecraft/world/entity/LivingEntity;Lnet/minecraft/world/item/ItemStack;Lnet/minecraft/world/item/ItemDisplayContext;Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/SubmitNodeCollector;I)V", ordinal = 0))
 	private void removeXYOffsetForTwoHandedCrossbow(AbstractClientPlayer player, float frameInterp, float xRot, InteractionHand hand, float attack, ItemStack itemStack, float inverseArmHeight, PoseStack poseStack, SubmitNodeCollector submitNodeCollector, int lightCoords, CallbackInfo ci) {
-		if (hand.equals(InteractionHand.OFF_HAND)) poseStack.translate(-handsManager$CONFIG.getLeftXOffset(), -handsManager$CONFIG.getLeftYOffset(), 0);
+		if (hand.equals(InteractionHand.OFF_HAND))
+			poseStack.translate(-handsManager$CONFIG.getLeftXOffset(), -handsManager$CONFIG.getLeftYOffset(), 0);
 	}
 	//~ }
 	//~ }

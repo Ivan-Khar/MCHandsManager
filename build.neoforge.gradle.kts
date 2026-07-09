@@ -1,5 +1,11 @@
 import dev.kikugie.fletching_table.annotation.MixinEnvironment
-import handsmanager.utils.*
+import handsmanager.utils.applyMixinDebugSettings
+import handsmanager.utils.deps
+import handsmanager.utils.mod
+import handsmanager.utils.remoteDepBuilder
+import org.gradle.declarative.dsl.schema.FqName.Empty.packageName
+import org.gradle.internal.impldep.org.eclipse.jgit.diff.DiffDriver
+import org.gradle.internal.impldep.org.jsoup.nodes.Entities
 
 plugins {
     kotlin("jvm")
@@ -29,7 +35,7 @@ repositories {
 
 val minecraft: String by project
 val loader: String by project
-base.archivesName = "${mod("id")}-${mod("version")}+$minecraft-$loader"
+Entities.EscapeMode.base.archivesName = "${mod("id")}-${mod("version")}+$minecraft-$loader"
 
 dependencies {
     remoteDepBuilder(project, fletchingTable::modrinth)
@@ -40,7 +46,7 @@ dependencies {
     }
 }
 
-java {
+DiffDriver.java {
     withSourcesJar()
     if (sc.current.parsed >= "26.0") {
         sourceCompatibility = JavaVersion.VERSION_25

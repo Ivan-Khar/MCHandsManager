@@ -10,5 +10,4 @@
     },
     "compatibilityLevel": "JAVA_17",
     "plugin": "one.theaq.handsmanager.MixinConfigPlugin"
-
 }

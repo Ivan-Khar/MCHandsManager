@@ -1,4 +1,3 @@
 package one.theaq.handsmanager.client
 
-object HandsManagerClient {
-}
+object HandsManagerClient

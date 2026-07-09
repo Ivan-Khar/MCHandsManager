@@ -1,7 +1,11 @@
 import gradle.kotlin.dsl.accessors._f84a4400f48078eb8b5915d16c03c4c4.idea
-import org.gradle.kotlin.dsl.invoke
-import org.gradle.language.jvm.tasks.ProcessResources
 import handsmanager.utils.mod
+import org.gradle.api.internal.artifacts.dsl.dependencies.DependenciesExtensionModule.module
+import org.gradle.kotlin.dsl.idea
+import org.gradle.kotlin.dsl.invoke
+import org.gradle.kotlin.dsl.module
+import org.gradle.kotlin.dsl.named
+import org.gradle.language.jvm.tasks.ProcessResources
 
 plugins {
     idea

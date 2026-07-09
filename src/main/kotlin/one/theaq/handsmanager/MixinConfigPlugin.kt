@@ -5,7 +5,7 @@ import org.objectweb.asm.tree.ClassNode
 import org.spongepowered.asm.mixin.extensibility.IMixinConfigPlugin
 import org.spongepowered.asm.mixin.extensibility.IMixinInfo
 
-class MixinConfigPlugin: IMixinConfigPlugin {
+class MixinConfigPlugin : IMixinConfigPlugin {
     override fun onLoad(mixinPackage: String) {
     }
 
@@ -26,7 +26,8 @@ class MixinConfigPlugin: IMixinConfigPlugin {
     override fun acceptTargets(
         myTargets: Set<String>,
         otherTargets: Set<String>
-    ) {}
+    ) {
+    }
 
     override fun getMixins(): List<String>? {
         return null
@@ -37,12 +38,14 @@ class MixinConfigPlugin: IMixinConfigPlugin {
         targetClass: ClassNode,
         mixinClassName: String,
         mixinInfo: IMixinInfo
-    ) {}
+    ) {
+    }
 
     override fun postApply(
         targetClassName: String,
         targetClass: ClassNode,
         mixinClassName: String,
         mixinInfo: IMixinInfo
-    ) {}
+    ) {
+    }
 }
