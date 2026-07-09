@@ -62,10 +62,11 @@ public abstract class ItemInHandRendererMixin {
 		throw new UnsupportedOperationException("Implemented via mixin");
 	}
 	
+	@Shadow
+	private ItemStack offHandItem;
 	// TODO:
 	//  - Optionally make two handed map onehanded on main hand
 	//  - Actual proper config where you can move hands with gizmo instead of sliders like I did before
-	//  - Offhand just pops into the existence if you stop holding two handed item in your main hand
 	@Unique
 	HandsManagerConfig CONFIG = HandsManagerMain.CONFIG;
 	@Unique
@@ -85,7 +86,7 @@ public abstract class ItemInHandRendererMixin {
 	
 	@Inject(method = "tick", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/ItemInHandRenderer;shouldInstantlyReplaceVisibleItem(Lnet/minecraft/world/item/ItemStack;Lnet/minecraft/world/item/ItemStack;)Z"))
 	private void checkIfHeldTwoHandedItem(CallbackInfo ci, @Local(name = "nextMainHand") ItemStack nextMainHand, @Local(name = "nextOffHand") ItemStack nextOffHand) {
-		if (mainHandItem.has(DataComponents.MAP_ID) || nextMainHand.has(DataComponents.MAP_ID) || mainHandItem.is(CommonTags.CROSSBOWS)) wasTwoHandedItem = true;
+		if ((mainHandItem.has(DataComponents.MAP_ID) || nextMainHand.has(DataComponents.MAP_ID) || mainHandItem.is(CommonTags.CROSSBOWS)) && offHandItem.isEmpty()) wasTwoHandedItem = true;
 	}
 	
 	@ModifyVariable(method = "submitHandsWithItems", name = "offhandInverseArmHeight", at = @At("LOAD"))
