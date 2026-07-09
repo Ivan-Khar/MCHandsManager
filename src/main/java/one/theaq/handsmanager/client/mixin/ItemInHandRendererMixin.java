@@ -9,8 +9,13 @@ import dev.kikugie.fletching_table.annotation.MixinEnvironment;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.AbstractClientPlayer;
 import net.minecraft.client.renderer.ItemInHandRenderer;
+
+//? >= 26.0 {
 import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.item.ItemModelResolver;
+//? } else {
+/*import net.minecraft.client.renderer.MultiBufferSource;
+*///? }
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
@@ -33,25 +38,29 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @MixinEnvironment(value = "client")
 @Mixin(ItemInHandRenderer.class)
 public abstract class ItemInHandRendererMixin {
+	//? if >= 26.0 {
 	@Shadow
 	protected abstract void renderPlayerArm(PoseStack par1, SubmitNodeCollector par2, int par3, float par4, float par5, HumanoidArm par6);
 	
-	// submitArmWithItem runs twice, once for main hand and once for offhand.
-	//  Make sure to check what InteractionHand is it
+	@Shadow
+	@Final
+	private ItemModelResolver itemModelResolver;
 	
 	@Shadow
+	protected abstract boolean shouldInstantlyReplaceVisibleItem(ItemStack currentlyVisibleItem, ItemStack expectedItem);
+	//? } else {
+	/*@Shadow
+	protected abstract void renderPlayerArm(PoseStack poseStack, MultiBufferSource multiBufferSource, int i, float f, float g, HumanoidArm humanoidArm);
+	
+	*///? }
+	@Shadow
 	private ItemStack mainHandItem;
-	@Shadow @Final
-	private ItemModelResolver itemModelResolver;
 	@Shadow
 	private float oMainHandHeight;
 	@Shadow
 	private float mainHandHeight;
 	@Unique
 	private boolean wasTwoHandedItem = false;
-	
-	@Shadow
-	protected abstract boolean shouldInstantlyReplaceVisibleItem(ItemStack currentlyVisibleItem, ItemStack expectedItem);
 	
 	@Shadow
 	@Final
@@ -64,6 +73,7 @@ public abstract class ItemInHandRendererMixin {
 	
 	@Shadow
 	private ItemStack offHandItem;
+	
 	// TODO:
 	//  - Optionally make two handed map onehanded on main hand
 	//  - Actual proper config where you can move hands with gizmo instead of sliders like I did before
@@ -72,45 +82,63 @@ public abstract class ItemInHandRendererMixin {
 	@Unique
 	Logger handsManager$LOGGER = HandsManagerMain.INSTANCE.getLOGGER();
 	
+	//~ if >= 26.0 'renderArmWithItem' -> 'submitArmWithItem' {
+	//~ if >= 26.0 'renderHandsWithItems' -> 'submitHandsWithItems'
+	//~ if >= 26.0 '"bl"' -> '"isMainHand"' {
 	@Definition(id = "isMainHand", local = @Local(type = boolean.class, name = "isMainHand"))
 	@Expression("isMainHand")
 	@ModifyExpressionValue(method = "submitArmWithItem", at = @At(value = "MIXINEXTRAS:EXPRESSION", ordinal = 1))
 	private boolean addDoubleHandRenderer(boolean original) {
 		return !mainHandItem.has(DataComponents.MAP_ID) || mainHandItem.is(CommonTags.INSTANCE.getCROSSBOWS());
 	}
+	//~ }
 	
+	//~ if >= 26.0 'Lnet/minecraft/world/item/ItemStack;matches(Lnet/minecraft/world/item/ItemStack;Lnet/minecraft/world/item/ItemStack;)Z' -> 'Lnet/minecraft/client/renderer/ItemInHandRenderer;shouldInstantlyReplaceVisibleItem(Lnet/minecraft/world/item/ItemStack;Lnet/minecraft/world/item/ItemStack;)Z' {
+	//~ if >= 26.0 'ItemStack.matches' -> 'shouldInstantlyReplaceVisibleItem'
+	//~ if >= 26.0 'itemStack2' -> 'nextOffHand'
+	//~ if >= 26.0 'itemStack' -> 'nextMainHand'
 	@ModifyExpressionValue(method = "tick", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/ItemInHandRenderer;shouldInstantlyReplaceVisibleItem(Lnet/minecraft/world/item/ItemStack;Lnet/minecraft/world/item/ItemStack;)Z"))
-	private boolean hideHandIfTwoHandedItem(boolean original, @Local(name = "nextMainHand") ItemStack nextMainHand, @Local(name = "nextOffHand") ItemStack nextOffHand) {
-		return wasTwoHandedItem ? shouldInstantlyReplaceVisibleItem(mainHandItem, nextMainHand) : original;
+	private boolean hideHandIfTwoHandedItem(boolean original, @Local(name = "nextOffHand") ItemStack nMainHand, @Local(name = "nextMainHand") ItemStack nOffHand) {
+		return wasTwoHandedItem ? ItemStack.matches(mainHandItem, nMainHand) : original;
 	}
 	
 	@Inject(method = "tick", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/ItemInHandRenderer;shouldInstantlyReplaceVisibleItem(Lnet/minecraft/world/item/ItemStack;Lnet/minecraft/world/item/ItemStack;)Z"))
-	private void checkIfHeldTwoHandedItem(CallbackInfo ci, @Local(name = "nextMainHand") ItemStack nextMainHand, @Local(name = "nextOffHand") ItemStack nextOffHand) {
+	private void checkIfHeldTwoHandedItem(CallbackInfo ci, @Local(name = "nextOffHand") ItemStack nMainHand, @Local(name = "nextMainHand") ItemStack nOffHand) {
 		if ((mainHandItem.has(DataComponents.MAP_ID) ||
-			nextMainHand.has(DataComponents.MAP_ID) ||
+			nMainHand.has(DataComponents.MAP_ID) ||
 			(mainHandItem.is(CommonTags.INSTANCE.getCROSSBOWS()) && CrossbowItem.isCharged(mainHandItem))
 		) && offHandItem.isEmpty()) wasTwoHandedItem = true;
 	}
+	//~ }
 	
+	//~ if >= 26.0 '"m"' -> '"offhandInverseArmHeight"' {
 	@ModifyVariable(method = "submitHandsWithItems", name = "offhandInverseArmHeight", at = @At("LOAD"))
-	private float modifyOffhandInverseArmHeight(float offhandInverseArmHeight, @Local(argsOnly = true) float frameInterp) {
+	private float modifyOffhandInverseArmHeight(float offhandInverseArmHeight, @Local(argsOnly = true, type = Float.class, ordinal = 0) float frameInterp) {
 		if (wasTwoHandedItem) {
+			//? if >= 26.0 {
 			var mainHandInverseArmHeight = itemModelResolver.swapAnimationScale(mainHandItem) * (1.0F - Mth.lerp(frameInterp, oMainHandHeight, mainHandHeight));
+			//? } else {
+			/*var mainHandInverseArmHeight = 1.0F - Mth.lerp(frameInterp, this.oMainHandHeight, this.mainHandHeight);
+			*///? }
 			
 			if (mainHandInverseArmHeight == 0) wasTwoHandedItem = false;
 			return mainHandInverseArmHeight;
 		}
 		return offhandInverseArmHeight;
 	}
+	//~ }
 	
+	//~ if >= 26.0 'MultiBufferSource multiBufferSource' -> 'SubmitNodeCollector submitNodeCollector' {
 	@Inject(method = "submitArmWithItem", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/ItemInHandRenderer;renderTwoHandedMap(Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/SubmitNodeCollector;IFFF)V", ordinal = 0))
 	private void removeXYOffsetForTwoHandedMap(AbstractClientPlayer player, float frameInterp, float xRot, InteractionHand hand, float attack, ItemStack itemStack, float inverseArmHeight, PoseStack poseStack, SubmitNodeCollector submitNodeCollector, int lightCoords, CallbackInfo ci) {
 		if (hand.equals(InteractionHand.OFF_HAND)) poseStack.translate(-handsManager$CONFIG.getLeftXOffset(), -handsManager$CONFIG.getLeftYOffset(), 0);
 	}
 	
+	//~ if >= 26.0 'ZLcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource' -> 'Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/SubmitNodeCollector'
 	@Inject(method = "submitArmWithItem", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/ItemInHandRenderer;renderItem(Lnet/minecraft/world/entity/LivingEntity;Lnet/minecraft/world/item/ItemStack;Lnet/minecraft/world/item/ItemDisplayContext;Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/SubmitNodeCollector;I)V", ordinal = 0))
 	private void removeXYOffsetForTwoHandedCrossbow(AbstractClientPlayer player, float frameInterp, float xRot, InteractionHand hand, float attack, ItemStack itemStack, float inverseArmHeight, PoseStack poseStack, SubmitNodeCollector submitNodeCollector, int lightCoords, CallbackInfo ci) {
 		if (hand.equals(InteractionHand.OFF_HAND)) poseStack.translate(-handsManager$CONFIG.getLeftXOffset(), -handsManager$CONFIG.getLeftYOffset(), 0);
 	}
-	
+	//~ }
+	//~ }
 }

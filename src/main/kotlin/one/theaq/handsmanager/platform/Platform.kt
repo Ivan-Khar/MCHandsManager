@@ -2,7 +2,7 @@ package one.theaq.handsmanager.platform
 
 import java.nio.file.Path
 //? if fabric {
-import net.fabricmc.loader.api.FabricLoader
+/*import net.fabricmc.loader.api.FabricLoader
 
 
 object Platform {
@@ -16,9 +16,9 @@ object Platform {
     val debugDirectory: Path
         get() = FabricLoader.getInstance().getConfigDir().getParent().resolve(".mchandsmanager_debug")
 }
-//?} else if neoforge {
+*///?} else if neoforge {
 
-/*import net.neoforged.fml.ModList
+import net.neoforged.fml.ModList
 import net.neoforged.fml.loading.LoadingModList
 import net.neoforged.fml.loading.FMLLoader
 
@@ -58,7 +58,7 @@ object Platform {
 	*///?}
 }
 
-*///?}
+//?}
 
 
 

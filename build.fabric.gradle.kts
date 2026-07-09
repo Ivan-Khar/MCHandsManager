@@ -24,6 +24,7 @@ repositories {
   maven("https://maven.quiltmc.org/repository/release/")
   maven("https://maven.blamejared.com/")
   maven("https://maven.shedaniel.me/")
+  maven("https://maven.parchmentmc.org")
 
   strictMaven("https://www.cursemaven.com", "Curseforge", "curse.maven")
   strictMaven("https://api.modrinth.com/maven", "Modrinth", "maven.modrinth")
@@ -35,10 +36,20 @@ base.archivesName = "${mod("id")}-${mod("version")}+$minecraft-$loader"
 
 dependencies {
   minecraft("com.mojang:minecraft:$minecraft")
-  mappings(loom.officialMojangMappings())
+  if (sc.current.parsed < "26.0") {
+    mappings(loom.layered {
+      officialMojangMappings()
+      deps("parchment") {
+        parchment("org.parchmentmc.data:parchment-$it@zip")
+      }
+    })
+  } else {
+    mappings(loom.officialMojangMappings())
+  }
 
   modImplementation("net.fabricmc:fabric-loader:0.17.3")
   modImplementation("net.fabricmc.fabric-api:fabric-api:${deps("fabric_api")}")
+  modImplementation("net.fabricmc:fabric-language-kotlin:${deps("fabric-language-kotlin")}")
 
   remoteDepBuilder(project, fletchingTable::modrinth)
     .dep("sodium") { modImplementation(it) }
@@ -48,6 +59,10 @@ java {
   withSourcesJar()
   sourceCompatibility = JavaVersion.VERSION_21
   targetCompatibility = JavaVersion.VERSION_21
+}
+
+kotlin {
+  jvmToolchain(21)
 }
 
 loom {

@@ -13,7 +13,7 @@ object HandsManagerMain {
     val CONFIG: HandsManagerConfig = HandsManagerConfig()
 
     fun initialize() {
-        CommonTags.init()
+        CommonTags
         LOGGER.info("$MOD_ID initialized")
     }
 
