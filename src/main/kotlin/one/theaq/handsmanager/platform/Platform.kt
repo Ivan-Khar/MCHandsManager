@@ -1,5 +1,7 @@
 package one.theaq.handsmanager.platform
 
+import java.nio.file.Path
+
 //? if fabric {
 import net.fabricmc.loader.api.FabricLoader
 
@@ -19,7 +21,6 @@ object Platform {
 
 /*import net.neoforged.fml.ModList
 import net.neoforged.fml.loading.FMLLoader
-import java.nio.file.Path
 
 object Platform {
     fun isModLoaded(modId: String): Boolean {
