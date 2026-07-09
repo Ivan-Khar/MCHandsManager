@@ -6,7 +6,7 @@ plugins {
     id("net.neoforged.moddev") version "2.0.141" apply false
 }
 
-stonecutter active "1.21.1-fabric"
+stonecutter active "1.21.1-neoforge"
 
 stonecutter parameters {
     constants.match(node.metadata.project.substringAfterLast('-'), "fabric", "neoforge")
@@ -23,7 +23,8 @@ stonecutter parameters {
     replacements.string(current.parsed < "26.0", "itemInHandRenderer") {
         replace("submitArmWithItem", "renderArmWithItem")
         replace("submitHandsWithItems", "renderHandsWithItems")
-        replace("name = \"isMainHand\"", "name = \"bl\"")
+        replace("name = \"isMainHand\"", "name = \"bl\"") // fabric 1.21
+        replace("name = \"isMainHand\"", "name = \"flag\"") // neof 1.21
         replace(
             "Lnet/minecraft/client/renderer/ItemInHandRenderer;shouldInstantlyReplaceVisibleItem(Lnet/minecraft/world/item/ItemStack;Lnet/minecraft/world/item/ItemStack;)Z",
             "Lnet/minecraft/world/item/ItemStack;matches(Lnet/minecraft/world/item/ItemStack;Lnet/minecraft/world/item/ItemStack;)Z"
