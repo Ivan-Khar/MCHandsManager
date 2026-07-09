@@ -1,5 +1,9 @@
 package one.theaq.handsmanager.client.mixin;
 
+import com.llamalad7.mixinextras.expression.Definition;
+import com.llamalad7.mixinextras.expression.Expression;
+import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
+import com.llamalad7.mixinextras.sugar.Local;
 import com.mojang.blaze3d.vertex.PoseStack;
 import dev.kikugie.fletching_table.annotation.MixinEnvironment;
 import net.minecraft.client.player.AbstractClientPlayer;
@@ -29,19 +33,11 @@ public abstract class ItemInHandRendererMixin {
 	@Unique
 	HandsManagerConfig CONFIG = HandsManagerMain.CONFIG;
 	
-	@Inject(
-			method = "submitArmWithItem",
-			at = @At(value = "INVOKE", ordinal = 0, target = "Lnet/minecraft/world/item/ItemStack;isEmpty()Z")
-	)
-	private void renderOffHand(AbstractClientPlayer player, float frameInterp, float xRot, InteractionHand hand, float attack, ItemStack itemStack, float inverseArmHeight, PoseStack poseStack, SubmitNodeCollector submitNodeCollector, int lightCoords, CallbackInfo ci) {
-		if (!itemStack.isEmpty()) return;
-		
-		boolean isOffHand = hand == InteractionHand.OFF_HAND;
-		HumanoidArm arm = isOffHand ?  player.getMainArm().getOpposite() : player.getMainArm();
-		
-		if (isOffHand && !player.isInvisible()) {
-			this.renderPlayerArm(poseStack, submitNodeCollector, lightCoords, inverseArmHeight, attack, arm);
-		}
+	@Definition(id = "isMainHand", local = @Local(type = boolean.class, name = "isMainHand"))
+	@Expression("isMainHand")
+	@ModifyExpressionValue(method = "submitArmWithItem", at = @At(value = "MIXINEXTRAS:EXPRESSION", ordinal = 1))
+	private boolean test(boolean original) {
+		return true;
 	}
 	
 	@Inject(
