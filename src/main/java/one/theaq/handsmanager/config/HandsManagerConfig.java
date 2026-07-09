@@ -4,9 +4,9 @@ public class HandsManagerConfig {
 	
 	public double leftXOffset = 0;
 	public double leftYOffset = 0;
-	public double leftZOffset = -1;
+	public double leftZOffset = 0;
 	
-	public double leftXRot = 10;
-	public double leftYRot = 10;
-	public double leftZRot = 10;
+	public double leftXRot = 0;
+	public double leftYRot = 0;
+	public double leftZRot = 0;
 }
