@@ -1,7 +1,7 @@
 package one.theaq.handsmanager
 
 //~identifier
-import net.minecraft.resources.Identifier
+import net.minecraft.resources.ResourceLocation
 import one.theaq.handsmanager.config.HandsManagerConfig
 import one.theaq.handsmanager.tag.CommonTags
 import org.slf4j.Logger
@@ -17,11 +17,11 @@ object HandsManagerMain {
         LOGGER.info("$MOD_ID initialized")
     }
 
-    fun location(path: String): Identifier {
-        return Identifier.fromNamespaceAndPath(MOD_ID, path)
+    fun location(path: String): ResourceLocation {
+        return ResourceLocation.fromNamespaceAndPath(MOD_ID, path)
     }
 
-    fun commonLocation(path: String): Identifier {
-        return Identifier.fromNamespaceAndPath("c", path)
+    fun commonLocation(path: String): ResourceLocation {
+        return ResourceLocation.fromNamespaceAndPath("c", path)
     }
 }

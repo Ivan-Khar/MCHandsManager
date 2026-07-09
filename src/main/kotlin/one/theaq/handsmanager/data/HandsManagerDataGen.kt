@@ -21,7 +21,7 @@ import one.theaq.handsmanager.HandsManagerMain
 @EventBusSubscriber(modid = HandsManagerMain.MOD_ID)
 object HandsManagerDataGen {
     //? if >= 1.21.4 {
-    @SubscribeEvent
+    /*@SubscribeEvent
     fun gatherServerData(event: GatherDataEvent.Server) {
 
     }
@@ -30,12 +30,12 @@ object HandsManagerDataGen {
     fun gatherClientData(event: GatherDataEvent.Client) {
 
     }
-    //?} else {
-    /*@SubscribeEvent
+    *///?} else {
+    @SubscribeEvent
     fun gatherData(event: GatherDataEvent) {
 
     }
-    *///?}
+    //?}
 }
 
 *///?}
