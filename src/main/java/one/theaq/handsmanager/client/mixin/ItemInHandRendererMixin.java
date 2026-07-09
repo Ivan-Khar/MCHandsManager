@@ -15,6 +15,7 @@ import net.minecraft.core.component.DataComponents;
 import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.HumanoidArm;
+import net.minecraft.world.item.CrossbowItem;
 import net.minecraft.world.item.ItemStack;
 import one.theaq.handsmanager.HandsManagerMain;
 import one.theaq.handsmanager.config.HandsManagerConfig;
@@ -75,7 +76,7 @@ public abstract class ItemInHandRendererMixin {
 	@Expression("isMainHand")
 	@ModifyExpressionValue(method = "submitArmWithItem", at = @At(value = "MIXINEXTRAS:EXPRESSION", ordinal = 1))
 	private boolean addDoubleHandRenderer(boolean original) {
-		return !mainHandItem.has(DataComponents.MAP_ID) || mainHandItem.is(CommonTags.CROSSBOWS);
+		return !mainHandItem.has(DataComponents.MAP_ID) || mainHandItem.is(CommonTags.INSTANCE.getCROSSBOWS());
 	}
 	
 	@ModifyExpressionValue(method = "tick", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/ItemInHandRenderer;shouldInstantlyReplaceVisibleItem(Lnet/minecraft/world/item/ItemStack;Lnet/minecraft/world/item/ItemStack;)Z"))
@@ -85,7 +86,10 @@ public abstract class ItemInHandRendererMixin {
 	
 	@Inject(method = "tick", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/ItemInHandRenderer;shouldInstantlyReplaceVisibleItem(Lnet/minecraft/world/item/ItemStack;Lnet/minecraft/world/item/ItemStack;)Z"))
 	private void checkIfHeldTwoHandedItem(CallbackInfo ci, @Local(name = "nextMainHand") ItemStack nextMainHand, @Local(name = "nextOffHand") ItemStack nextOffHand) {
-		if ((mainHandItem.has(DataComponents.MAP_ID) || nextMainHand.has(DataComponents.MAP_ID) || mainHandItem.is(CommonTags.CROSSBOWS)) && offHandItem.isEmpty()) wasTwoHandedItem = true;
+		if ((mainHandItem.has(DataComponents.MAP_ID) ||
+			nextMainHand.has(DataComponents.MAP_ID) ||
+			(mainHandItem.is(CommonTags.INSTANCE.getCROSSBOWS()) && CrossbowItem.isCharged(mainHandItem))
+		) && offHandItem.isEmpty()) wasTwoHandedItem = true;
 	}
 	
 	@ModifyVariable(method = "submitHandsWithItems", name = "offhandInverseArmHeight", at = @At("LOAD"))
@@ -101,12 +105,12 @@ public abstract class ItemInHandRendererMixin {
 	
 	@Inject(method = "submitArmWithItem", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/ItemInHandRenderer;renderTwoHandedMap(Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/SubmitNodeCollector;IFFF)V", ordinal = 0))
 	private void removeXYOffsetForTwoHandedMap(AbstractClientPlayer player, float frameInterp, float xRot, InteractionHand hand, float attack, ItemStack itemStack, float inverseArmHeight, PoseStack poseStack, SubmitNodeCollector submitNodeCollector, int lightCoords, CallbackInfo ci) {
-		if (hand.equals(InteractionHand.OFF_HAND)) poseStack.translate(-handsManager$CONFIG.leftXOffset, -handsManager$CONFIG.leftYOffset, 0);
+		if (hand.equals(InteractionHand.OFF_HAND)) poseStack.translate(-handsManager$CONFIG.getLeftXOffset(), -handsManager$CONFIG.getLeftYOffset(), 0);
 	}
 	
 	@Inject(method = "submitArmWithItem", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/ItemInHandRenderer;renderItem(Lnet/minecraft/world/entity/LivingEntity;Lnet/minecraft/world/item/ItemStack;Lnet/minecraft/world/item/ItemDisplayContext;Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/SubmitNodeCollector;I)V", ordinal = 0))
 	private void removeXYOffsetForTwoHandedCrossbow(AbstractClientPlayer player, float frameInterp, float xRot, InteractionHand hand, float attack, ItemStack itemStack, float inverseArmHeight, PoseStack poseStack, SubmitNodeCollector submitNodeCollector, int lightCoords, CallbackInfo ci) {
-		if (hand.equals(InteractionHand.OFF_HAND)) poseStack.translate(-handsManager$CONFIG.leftXOffset, -handsManager$CONFIG.leftYOffset, 0);
+		if (hand.equals(InteractionHand.OFF_HAND)) poseStack.translate(-handsManager$CONFIG.getLeftXOffset(), -handsManager$CONFIG.getLeftYOffset(), 0);
 	}
 	
 }
