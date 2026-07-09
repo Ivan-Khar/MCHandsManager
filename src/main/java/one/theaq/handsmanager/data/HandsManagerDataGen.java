@@ -16,8 +16,7 @@ public final class HandsManagerDataGen implements DataGeneratorEntrypoint {
 }
 //?} else {
 
-/*import one.theaq.handsmanager.HandsManagerMain;
-import net.neoforged.bus.api.SubscribeEvent;
+/*import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.data.event.GatherDataEvent;
 
@@ -35,12 +34,12 @@ public final class HandsManagerDataGen {
 
 	}
 	//?} else {
-	//
-	//@SubscribeEvent
-	//public static void gatherData(GatherDataEvent event) {
-	//
-	//}
-	//?}
+	
+	/^@SubscribeEvent
+	public static void gatherData(GatherDataEvent event) {
+	
+	}
+	^///?}
 }
 
 *///?}

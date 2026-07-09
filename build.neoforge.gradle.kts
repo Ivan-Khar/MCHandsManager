@@ -31,6 +31,8 @@ val loader: String by project
 base.archivesName = "${mod("id")}-${mod("version")}+$minecraft-$loader"
 
 dependencies {
+  implementation("thedarkcolour:kotlinforforge:1.16.0")
+
   remoteDepBuilder(project, fletchingTable::modrinth)
   deps("sodium") {
     implementation("maven.modrinth:sodium:$it")

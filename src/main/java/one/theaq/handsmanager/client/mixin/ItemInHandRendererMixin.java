@@ -16,7 +16,6 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.HumanoidArm;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 import one.theaq.handsmanager.HandsManagerMain;
 import one.theaq.handsmanager.config.HandsManagerConfig;
 import one.theaq.handsmanager.tag.CommonTags;
@@ -51,14 +50,14 @@ public abstract class ItemInHandRendererMixin {
 	private boolean wasTwoHandedItem = false;
 	
 	@Shadow
-	protected abstract boolean shouldInstantlyReplaceVisibleItem(ItemStack par1, ItemStack par2);
+	protected abstract boolean shouldInstantlyReplaceVisibleItem(ItemStack currentlyVisibleItem, ItemStack expectedItem);
 	
 	@Shadow
 	@Final
 	private Minecraft minecraft;
 	
 	@Shadow
-	private static boolean isChargedCrossbow(ItemStack itemStack) {
+	private static boolean isChargedCrossbow(ItemStack item) {
 		throw new UnsupportedOperationException("Implemented via mixin");
 	}
 	
@@ -68,9 +67,9 @@ public abstract class ItemInHandRendererMixin {
 	//  - Optionally make two handed map onehanded on main hand
 	//  - Actual proper config where you can move hands with gizmo instead of sliders like I did before
 	@Unique
-	HandsManagerConfig CONFIG = HandsManagerMain.CONFIG;
+	HandsManagerConfig handsManager$CONFIG = HandsManagerMain.INSTANCE.getCONFIG();
 	@Unique
-	Logger LOGGER = HandsManagerMain.LOGGER;
+	Logger handsManager$LOGGER = HandsManagerMain.INSTANCE.getLOGGER();
 	
 	@Definition(id = "isMainHand", local = @Local(type = boolean.class, name = "isMainHand"))
 	@Expression("isMainHand")
@@ -102,12 +101,12 @@ public abstract class ItemInHandRendererMixin {
 	
 	@Inject(method = "submitArmWithItem", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/ItemInHandRenderer;renderTwoHandedMap(Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/SubmitNodeCollector;IFFF)V", ordinal = 0))
 	private void removeXYOffsetForTwoHandedMap(AbstractClientPlayer player, float frameInterp, float xRot, InteractionHand hand, float attack, ItemStack itemStack, float inverseArmHeight, PoseStack poseStack, SubmitNodeCollector submitNodeCollector, int lightCoords, CallbackInfo ci) {
-		if (hand.equals(InteractionHand.OFF_HAND)) poseStack.translate(-CONFIG.leftXOffset, -CONFIG.leftYOffset, 0);
+		if (hand.equals(InteractionHand.OFF_HAND)) poseStack.translate(-handsManager$CONFIG.leftXOffset, -handsManager$CONFIG.leftYOffset, 0);
 	}
 	
 	@Inject(method = "submitArmWithItem", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/ItemInHandRenderer;renderItem(Lnet/minecraft/world/entity/LivingEntity;Lnet/minecraft/world/item/ItemStack;Lnet/minecraft/world/item/ItemDisplayContext;Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/SubmitNodeCollector;I)V", ordinal = 0))
 	private void removeXYOffsetForTwoHandedCrossbow(AbstractClientPlayer player, float frameInterp, float xRot, InteractionHand hand, float attack, ItemStack itemStack, float inverseArmHeight, PoseStack poseStack, SubmitNodeCollector submitNodeCollector, int lightCoords, CallbackInfo ci) {
-		if (hand.equals(InteractionHand.OFF_HAND)) poseStack.translate(-CONFIG.leftXOffset, -CONFIG.leftYOffset, 0);
+		if (hand.equals(InteractionHand.OFF_HAND)) poseStack.translate(-handsManager$CONFIG.leftXOffset, -handsManager$CONFIG.leftYOffset, 0);
 	}
 	
 }

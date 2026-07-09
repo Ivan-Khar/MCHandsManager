@@ -26,7 +26,7 @@ public class MixinConfigPlugin implements IMixinConfigPlugin {
 
 		String compatMixinName = mixinClassName.substring(compatIndex + compatIdentifier.length());
 		String compatId = compatMixinName.substring(0, compatMixinName.indexOf('.'));
-		return Platform.isModLoaded(compatId);
+		return Platform.INSTANCE.isModLoaded(compatId);
 	}
 
 	@Override
