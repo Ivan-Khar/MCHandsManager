@@ -1,5 +1,5 @@
 //? if neoforge {
-package one.theaq.handsmanager.platform.neoforge
+/*package one.theaq.handsmanager.platform.neoforge
 
 import net.neoforged.fml.common.Mod
 import one.theaq.handsmanager.HandsManagerMain
@@ -10,4 +10,4 @@ class NeoforgeEntrypoint {
         HandsManagerMain.initialize()
     }
 }
-//?}
+*///?}

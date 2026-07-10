@@ -1,7 +1,7 @@
 package one.theaq.handsmanager.data
 
 //? if fabric {
-/*import dev.kikugie.fletching_table.annotation.fabric.Entrypoint
+import dev.kikugie.fletching_table.annotation.fabric.Entrypoint
 import net.fabricmc.fabric.api.datagen.v1.DataGeneratorEntrypoint
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator
 
@@ -11,9 +11,9 @@ class HandsManagerDataGen: DataGeneratorEntrypoint {
 
     }
 }
-*///?} else {
+//?} else {
 
-import net.neoforged.bus.api.SubscribeEvent
+/*import net.neoforged.bus.api.SubscribeEvent
 import net.neoforged.fml.common.EventBusSubscriber
 import net.neoforged.neoforge.data.event.GatherDataEvent
 import one.theaq.handsmanager.HandsManagerMain
@@ -21,7 +21,7 @@ import one.theaq.handsmanager.HandsManagerMain
 @EventBusSubscriber(modid = HandsManagerMain.MOD_ID)
 object HandsManagerDataGen {
     //? if >= 1.21.4 {
-    /*@SubscribeEvent
+    @SubscribeEvent
     fun gatherServerData(event: GatherDataEvent.Server) {
 
     }
@@ -30,12 +30,12 @@ object HandsManagerDataGen {
     fun gatherClientData(event: GatherDataEvent.Client) {
 
     }
-    *///?} else {
-    @SubscribeEvent
+    //?} else {
+    /*@SubscribeEvent
     fun gatherData(event: GatherDataEvent) {
 
     }
-    //?}
+    *///?}
 }
 
-//?}
+*///?}
