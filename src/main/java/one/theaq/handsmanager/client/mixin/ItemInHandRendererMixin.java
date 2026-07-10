@@ -52,8 +52,6 @@ public abstract class ItemInHandRendererMixin {
 	
 	@Shadow
 	protected abstract boolean shouldInstantlyReplaceVisibleItem(ItemStack currentlyVisibleItem, ItemStack expectedItem);
-	
-	
 	//? }
 	@Shadow
 	private ItemStack mainHandItem;
@@ -93,7 +91,7 @@ public abstract class ItemInHandRendererMixin {
 
 	@ModifyExpressionValue(method = "tick", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/ItemInHandRenderer;shouldInstantlyReplaceVisibleItem(Lnet/minecraft/world/item/ItemStack;Lnet/minecraft/world/item/ItemStack;)Z"))
 	private boolean hideHandIfTwoHandedItem(boolean original, @Local(name = "nextMainHand") ItemStack nMainHand, @Local(name = "nextOffHand") ItemStack nOffHand) {
-		return wasTwoHandedItem ? ItemStack.matches(mainHandItem, nMainHand) : original;
+		return wasTwoHandedItem ? shouldInstantlyReplaceVisibleItem(mainHandItem, nMainHand) : original;
 	}
 	
 	@Inject(method = "tick", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/ItemInHandRenderer;shouldInstantlyReplaceVisibleItem(Lnet/minecraft/world/item/ItemStack;Lnet/minecraft/world/item/ItemStack;)Z"))

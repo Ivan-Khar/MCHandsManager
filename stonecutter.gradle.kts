@@ -36,6 +36,10 @@ stonecutter parameters {
             "Lnet/minecraft/client/renderer/ItemInHandRenderer;shouldInstantlyReplaceVisibleItem(Lnet/minecraft/world/item/ItemStack;Lnet/minecraft/world/item/ItemStack;)Z",
             "Lnet/minecraft/world/item/ItemStack;matches(Lnet/minecraft/world/item/ItemStack;Lnet/minecraft/world/item/ItemStack;)Z"
         )
+        replace(
+            "shouldInstantlyReplaceVisibleItem(mainHandItem, nMainHand)",
+            "ItemStack.matches(mainHandItem, nMainHand)"
+        )
         replace("\"offhandInverseArmHeight\"", "\"f\"")
         replace(
             "renderItem(Lnet/minecraft/world/entity/LivingEntity;Lnet/minecraft/world/item/ItemStack;Lnet/minecraft/world/item/ItemDisplayContext;Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/SubmitNodeCollector;I)",
