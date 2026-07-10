@@ -4,7 +4,6 @@ package one.theaq.handsmanager.data
 import dev.kikugie.fletching_table.annotation.fabric.Entrypoint
 import net.fabricmc.fabric.api.datagen.v1.DataGeneratorEntrypoint
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator
-import one.theaq.handsmanager.HandsManagerMain
 import one.theaq.handsmanager.data.fabric.DataGenTagProvider
 
 @Entrypoint("fabric-datagen")
