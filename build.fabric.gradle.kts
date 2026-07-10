@@ -37,16 +37,12 @@ base.archivesName = "${mod("id")}-${mod("version")}+$minecraft-$loader"
 
 dependencies {
     minecraft("com.mojang:minecraft:$minecraft")
-    if (sc.current.parsed < "26.0") {
-        mappings(loom.layered {
-            officialMojangMappings()
-            deps("parchment") {
-                parchment("org.parchmentmc.data:parchment-$it@zip")
-            }
-        })
-    } else {
-        mappings(loom.officialMojangMappings())
-    }
+    mappings(loom.layered {
+        officialMojangMappings()
+        if (sc.current.parsed < "26.0") deps("parchment") {
+            parchment("org.parchmentmc.data:parchment-$it@zip")
+        }
+    })
 
     modImplementation("net.fabricmc:fabric-loader:0.17.3")
     modImplementation("net.fabricmc.fabric-api:fabric-api:${deps("fabric_api")}")

@@ -45,13 +45,12 @@ dependencies {
 
 java {
     withSourcesJar()
-    if (sc.current.parsed >= "26.0") {
-        sourceCompatibility = JavaVersion.VERSION_25
-        targetCompatibility = JavaVersion.VERSION_25
-    } else {
-        sourceCompatibility = JavaVersion.VERSION_21
-        targetCompatibility = JavaVersion.VERSION_21
-    }
+    sourceCompatibility = if(sc.current.parsed >= "26.0") JavaVersion.VERSION_25 else JavaVersion.VERSION_21
+    targetCompatibility = if(sc.current.parsed >= "26.0") JavaVersion.VERSION_25 else JavaVersion.VERSION_21
+}
+
+kotlin {
+    jvmToolchain(if(sc.current.parsed >= "26.0") 25 else 21)
 }
 
 neoForge {
