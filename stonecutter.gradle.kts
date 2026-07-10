@@ -24,6 +24,8 @@ stonecutter parameters {
     replacements.string(current.parsed < "26.0", "itemInHandRenderer") {
         replace("submitArmWithItem", "renderArmWithItem")
         replace("submitHandsWithItems", "renderHandsWithItems")
+        //TODO: This doesnt work particularly well,
+        //  make sure to go between one loader versions and then switch the loaders if you need to
         if (loader == "fabric") {
             replace("name = \"isMainHand\"", "name = \"bl\"") // fabric 1.21
         } else {
