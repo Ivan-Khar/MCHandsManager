@@ -21,6 +21,12 @@
                 "adapter": "kotlin",
                 "value": "one.theaq.handsmanager.platform.fabric.FabricEntrypoint"
             }
+        ],
+        "client": [
+            {
+                "adapter": "kotlin",
+                "value": "one.theaq.handsmanager.client.platform.fabric.FabricClientEntrypoint"
+            }
         ]
     },
     "accessWidener": "${minecraft_version}.accesswidener",
